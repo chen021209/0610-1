@@ -13,6 +13,7 @@ let video, bodypose, pose, keypoint, detector;
 let poses = [];
 let imgSpeed = 2; // Speed of image movement
 let imgXLeft, imgXRight; // X positions for the images
+let imgXLeftEye, imgXRightEye, imgXLeftWrist, imgXRightWrist; // X positions for eye and wrist images
 
 async function init() {
   const detectorConfig = {
@@ -51,6 +52,10 @@ async function setup() {
 
   imgXLeft = width; // Initialize image position off the canvas on the right
   imgXRight = width; // Initialize image position off the canvas on the right
+  imgXLeftEye = -75; // Initialize image position off the canvas on the left
+  imgXRightEye = -75; // Initialize image position off the canvas on the left
+  imgXLeftWrist = width; // Initialize image position off the canvas on the right
+  imgXRightWrist = width; // Initialize image position off the canvas on the right
 }
 
 function draw() {
@@ -67,10 +72,8 @@ function drawSkeleton() {
   // Draw all the tracked landmark points
   for (let i = 0; i < poses.length; i++) {
     pose = poses[i];
-    // shoulder to wrist
-
+    // Display text near the nose
     partA = pose.keypoints[0];
-
     if (partA.score > 0.1) {
       push();
       textSize(40);
@@ -78,14 +81,45 @@ function drawSkeleton() {
       text("412730482,陳儷靜", partA.x - width, partA.y - 150);
       pop();
     }
-
-    for (let j = 5; j < 9; j++) {
-      if (pose.keypoints[j].score > 0.1 && pose.keypoints[j + 2].score > 0.1) {
-        partA = pose.keypoints[j];
-        partB = pose.keypoints[j + 2];
-        line(partA.x, partA.y, partB.x, partB.y);
+    
+    // Left eye to right eye
+    partA = pose.keypoints[1];
+    partB = pose.keypoints[2];
+    if (partA.score > 0.1 && partB.score > 0.1) {
+      // Move image from left to right
+      imgXLeftEye += imgSpeed;
+      imgXRightEye += imgSpeed;
+      if (imgXLeftEye > width) {
+        imgXLeftEye = -75;
       }
+      if (imgXRightEye > width) {
+        imgXRightEye = -75;
+      }
+      push();
+      image(carImg, imgXLeftEye, partA.y - 75, 150, 150); // 左眼
+      image(carImg, imgXRightEye, partB.y - 75, 150, 150); // 右眼
+      pop();
     }
+
+    // Left wrist to right wrist
+    partA = pose.keypoints[9];
+    partB = pose.keypoints[10];
+    if (partA.score > 0.1 && partB.score > 0.1) {
+      // Move image from right to left
+      imgXLeftWrist -= imgSpeed;
+      imgXRightWrist -= imgSpeed;
+      if (imgXLeftWrist < -75) {
+        imgXLeftWrist = width;
+      }
+      if (imgXRightWrist < -75) {
+        imgXRightWrist = width;
+      }
+      push();
+      image(carImg, imgXLeftWrist - 75, partA.y - 75, 150, 150); // 左手腕
+      image(carImg, imgXRightWrist - 75, partB.y - 75, 150, 150); // 右手腕
+      pop();
+    }
+
     // shoulder to shoulder
     partA = pose.keypoints[5];
     partB = pose.keypoints[6];
@@ -104,6 +138,8 @@ function drawSkeleton() {
       image(carImg, imgXRight - 75, partB.y - 75, 150, 150); // 右邊肩膀
       pop();
     }
+    
+    // Draw lines for other body parts
     // hip to hip
     partA = pose.keypoints[11];
     partB = pose.keypoints[12];
