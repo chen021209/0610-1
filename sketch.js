@@ -75,7 +75,7 @@ function drawSkeleton() {
       push();
       textSize(40);
       scale(-1, 1);
-      text("412730763,陳玟伶", partA.x - width, partA.y - 150);
+      text("412730482,陳儷靜", partA.x - width, partA.y - 150);
       pop();
     }
 
@@ -87,8 +87,8 @@ function drawSkeleton() {
       }
     }
     // shoulder to shoulder
-    partA = pose.keypoints[9];
-    partB = pose.keypoints[10];
+    partA = pose.keypoints[5];
+    partB = pose.keypoints[6];
     if (partA.score > 0.1 && partB.score > 0.1) {
       // Move image from right to left
       imgXLeft -= imgSpeed;
