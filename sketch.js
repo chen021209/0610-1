@@ -96,8 +96,8 @@ function drawSkeleton() {
         imgXRightEye = -75;
       }
       push();
-      image(carImg, imgXRightEye, partA.y - 75, 150, 150); // 左眼
-      image(carImg, imgXLeftEye, partB.y - 75, 150, 150); // 右眼
+      image(carImg, imgXLeftEye, partA.y - 75, 150, 150); // 左眼
+      image(carImg, imgXRightEye, partB.y - 75, 150, 150); // 右眼
       pop();
     }
 
@@ -134,8 +134,8 @@ function drawSkeleton() {
         imgXRight = width;
       }
       push();
-      image(carImg, imgXRight - 75, partA.y - 75, 150, 150); // 左邊肩膀
-      image(carImg, imgXLeft - 75, partB.y - 75, 150, 150); // 右邊肩膀
+      image(carImg, imgXLeft - 75, partA.y - 75, 150, 150); // 左邊肩膀
+      image(carImg, imgXRight - 75, partB.y - 75, 150, 150); // 右邊肩膀
       pop();
     }
     
