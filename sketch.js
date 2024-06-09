@@ -6,7 +6,7 @@ https://www.tensorflow.org/hub/tutorials/movenet
 */
 
 function preload() { 
-  carImg = loadImage("upload_7dd6374659c38a191c0e3eb86f1d75c5.gif");
+  carImg = loadImage("upload_e7b8681276bf136e02f932e89ea6fe54.gif");
 }
 
 let video, bodypose, pose, keypoint, detector;
