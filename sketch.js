@@ -52,10 +52,10 @@ async function setup() {
 
   imgXLeft = width; // Initialize image position off the canvas on the right
   imgXRight = width; // Initialize image position off the canvas on the right
-  imgXLeftEye = width; // Initialize image position off the canvas on the right
-  imgXRightEye = width; // Initialize image position off the canvas on the right
-  imgXLeftWrist = -75; // Initialize image position off the canvas on the left
-  imgXRightWrist = -75; // Initialize image position off the canvas on the left
+  imgXLeftEye = -75; // Initialize image position off the canvas on the left
+  imgXRightEye = -75; // Initialize image position off the canvas on the left
+  imgXLeftWrist = width; // Initialize image position off the canvas on the right
+  imgXRightWrist = width; // Initialize image position off the canvas on the right
 }
 
 function draw() {
@@ -86,18 +86,18 @@ function drawSkeleton() {
     partA = pose.keypoints[1];
     partB = pose.keypoints[2];
     if (partA.score > 0.1 && partB.score > 0.1) {
-      // Move image from right to left
-      imgXLeftEye -= imgSpeed;
-      imgXRightEye -= imgSpeed;
-      if (imgXLeftEye < -75) {
-        imgXLeftEye = width;
+      // Move image from left to right
+      imgXLeftEye += imgSpeed;
+      imgXRightEye += imgSpeed;
+      if (imgXLeftEye > width) {
+        imgXLeftEye = -75;
       }
-      if (imgXRightEye < -75) {
-        imgXRightEye = width;
+      if (imgXRightEye > width) {
+        imgXRightEye = -75;
       }
       push();
-      image(carImg, imgXLeftEye - 75, partA.y - 75, 150, 150); // 左眼
-      image(carImg, imgXRightEye - 75, partB.y - 75, 150, 150); // 右眼
+      image(carImg, imgXLeftEye, partA.y - 75, 150, 150); // 左眼
+      image(carImg, imgXRightEye, partB.y - 75, 150, 150); // 右眼
       pop();
     }
 
@@ -105,18 +105,18 @@ function drawSkeleton() {
     partA = pose.keypoints[9];
     partB = pose.keypoints[10];
     if (partA.score > 0.1 && partB.score > 0.1) {
-      // Move image from left to right
-      imgXLeftWrist += imgSpeed;
-      imgXRightWrist += imgSpeed;
-      if (imgXLeftWrist > width) {
-        imgXLeftWrist = -75;
+      // Move image from right to left
+      imgXLeftWrist -= imgSpeed;
+      imgXRightWrist -= imgSpeed;
+      if (imgXLeftWrist < -75) {
+        imgXLeftWrist = width;
       }
-      if (imgXRightWrist > width) {
-        imgXRightWrist = -75;
+      if (imgXRightWrist < -75) {
+        imgXRightWrist = width;
       }
       push();
-      image(carImg, imgXLeftWrist, partA.y - 75, 150, 150); // 左手腕
-      image(carImg, imgXRightWrist, partB.y - 75, 150, 150); // 右手腕
+      image(carImg, imgXLeftWrist - 75, partA.y - 75, 150, 150); // 左手腕
+      image(carImg, imgXRightWrist - 75, partB.y - 75, 150, 150); // 右手腕
       pop();
     }
 
